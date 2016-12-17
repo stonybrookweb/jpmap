@@ -1,0 +1,138 @@
+html,
+body {
+  font-family: Arial, sans-serif;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.header {
+  background-color: white;
+  opacity: 0.8;
+  height: 100%;
+  width: 18%;
+  border-right: 1px solid lightgrey;
+  z-index: 10;
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 0 0 0 20px;
+  overflow-y: scroll;
+}
+
+.header-title {
+  font-size: 20px;
+}
+.header input {
+    border: 2px solid lightgrey;
+    border-radius: 10px;
+    height: 25px;
+}
+
+  #menu-toggle {
+    display: none;
+}
+
+.location-item {
+  padding: 15px;
+}
+
+.location-item:hover {
+  background-color: lightblue;
+  color: white;
+}
+
+main,
+#map {
+  height: 100%;
+  width: 100%;
+}
+
+.infowindow {
+  overflow-y: scroll;
+  width: 400px;
+  height: 400px;
+}
+
+
+#pano {
+  width: 365px;
+  height: 200px;
+}
+
+.text {
+  font-size: 12px;
+}
+
+@media (max-width: 768px){
+  .header {
+    min-width: 200px;
+  }
+
+  .infowindow {
+    width: 200px;
+    height: 200px;
+}
+
+  #pano {
+    width: 165px;
+    height: 100px;
+  }
+
+  #menu-toggle {
+    display: none;
+  }
+}
+
+@media (max-width: 480px){
+  .header {
+    height: 40px;
+    width: 100%;
+    overflow-y: hidden;
+  }
+
+  .header-title {
+    width: 80%;
+    font-size: 16px;
+  }
+
+  .header input {
+    width: 60%;
+  }
+
+  .infowindow {
+    width: 200px;
+    height: 400px;
+    z-index: 30;
+}
+
+  .infowindow-header {
+    font-size: 14px;
+  }
+
+  #pano {
+    width: 200px;
+    height: 250px;
+  }
+
+  .openList{
+    height: auto;
+  }
+
+  #menu-toggle {
+    display: block;
+    position: absolute;
+    right: 15px;
+    top: 5px;
+    width: 12%;
+    border: 1px solid lightgrey;
+    background-color: black;
+    color: white;
+    margin: 0 10px 0 0;
+  }
+}
