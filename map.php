@@ -1,4 +1,4 @@
-<?php 
+<?php
 /*
 Template Name: Map
 */
@@ -23,9 +23,9 @@ Template Name: Map
         </header>
         <main>
             <div id="map"></div>
-            
-            
- <?php 
+
+
+ <?php
 // the query
 $wpb_all_query = new WP_Query(array('post_type'=>'post', 'post_status'=>'publish', 'posts_per_page'=>-1)); ?>
 
@@ -33,50 +33,63 @@ $wpb_all_query = new WP_Query(array('post_type'=>'post', 'post_status'=>'publish
 
 <?php if ( $wpb_all_query->have_posts() ) : ?>
 
-	<!-- the loop -->
-	<?php while ( $wpb_all_query->have_posts() ) : $wpb_all_query->the_post(); ?>
-	
+	<?php
+        // The loop
+        while ( $wpb_all_query->have_posts() ) : $wpb_all_query->the_post(); ?>
+
         <?php
 		// get custom fields and put into an array
 		$mycustom = get_post_custom();
-		
-		// Create temporary php array in correct output format	
+
+		// Create temporary php array in correct output format
         $mapArray = array();
         $mapArray[title] = get_the_title();
 		$mapArray[location] = array();
-		$mapArray[location][lat] = $mycustom['lat'][0];
-		$mapArray[location][lng] = $mycustom['lng'][0];
+		$mapArray[location][lat] = floatval($mycustom['lat'][0]);
+		$mapArray[location][lng] = floatval($mycustom['lng'][0]);
 		$mapArray[note] = get_the_content();
-		
+        $mapArray[categories] = array();
+        $mapArray[tags] = array();
+
+        // Get Categories for post
+        $myCategories = get_the_category();
+        foreach($myCategories as $category){
+            array_push($mapArray[categories], $category->name);
+        }
+
+        // Get tags for post
+        $myTags = wp_get_post_tags( $post->ID );
+        foreach($myTags as $tag){
+            array_push($mapArray[tags], $tag->name);
+        }
+
 		// convert the array to a json and push it the array of all objects
-		$jsonArray = json_encode($mapArray);		
+		$jsonArray = json_encode($mapArray);
 		array_push ($allObjectsArray, $jsonArray);
-	
-        
         ?>
-	
+
 	<?php endwhile; ?>
-    
-    <? 
+
+    <?
 	echo "<pre>";
-	print_r($allObjectsArray); 
-	// ok now we have several json objects we want to output into a javascript array
-	
-	$final_output = "[";
+	print_r($allObjectsArray);
+
+    // no we have several json objects to output into a javascript array for use
+	$final_output = " <script> var initialLocations = [";
 	foreach($allObjectsArray as $array ){
 		$final_output .= $array;
-		$final_output .= ","; // TODO don't print comma after final element so we have valid json		
+		$final_output .= ","; // TODO don't print comma after final element so we have valid json
 	}
-	
-	$final_output .= "]";
-	
+
+	$final_output .= "]; </script>";
+
 	print $final_output;
-	
-	
+
+
 	?>
-	
-    
-    
+
+
+
     <!-- end of the loop -->
 
 </ul>
@@ -85,10 +98,10 @@ $wpb_all_query = new WP_Query(array('post_type'=>'post', 'post_status'=>'publish
 <?php else : ?>
 	<?php // add error message here ?>
 <?php endif; ?>
-            
-            
-            
-            
+
+
+
+
         </main>
         <!-- Load Knockout Framework -->
         <script src=" <?php  echo get_template_directory_uri()  ?>/js/knockout-3.4.0.js"></script>
