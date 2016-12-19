@@ -1,19 +1,11 @@
-subl<?php
+<?php
 /*
 Template Name: Map
 */
 ?>
 <? get_header(); ?>
-<!doctype html>
-<html>
-    <head>
-        <meta charset="utf-8">
-        <title>Jamaica Plain</title>
 
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-    </head>
 
-    <body>
         <header class="header" data-bind="css: {openList: menuClass() == true}">
         <h1 class="header-title">Jamaica Plain Neighborhood Map</h1>
             <button id="menu-toggle" data-bind="click: toggleMenu, text: menuName">Toggle Menu</button>
@@ -74,6 +66,7 @@ $wpb_all_query = new WP_Query(array('post_type'=>'post', 'post_status'=>'publish
     <?
 	echo "<pre>";
 	print_r($allObjectsArray);
+    echo "</pre>";
 
     // no we have several json objects to output into a javascript array for use
 	$final_output = " <script> var initialLocations = [";
@@ -93,7 +86,6 @@ $wpb_all_query = new WP_Query(array('post_type'=>'post', 'post_status'=>'publish
 
     <!-- end of the loop -->
 
-</ul>
 	<?php wp_reset_postdata(); ?>
 
 <?php else : ?>
