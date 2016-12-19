@@ -9,7 +9,7 @@ Template Name: Map
     <head>
         <meta charset="utf-8">
         <title>Jamaica Plain</title>
-        <link rel="stylesheet" type="text/css" href="<?php echo get_template_directory_uri()  ?>/css/style.css">
+
         <meta name="viewport" content="width=device-width, initial-scale=1">
     </head>
 
