@@ -896,3 +896,13 @@ object {
 .gallery-caption {
 	display: block;
 }
+
+
+
+/* Custom styles */
+
+footer,
+#masthead,
+pre {
+	display: none;
+}

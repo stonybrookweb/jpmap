@@ -265,8 +265,8 @@ function getNYTimesArticles(){
             alert('New York Times data not currently available. Please try again later.');
     });
 }
-
-getNYTimesArticles();
+// TODO: Replace this API with another from Boston area. Remove the NYT Call code
+// getNYTimesArticles();
 
 // Make map responsive and fit all markers on resize hanks to tip from Udacity reviewer.
 window.onresize = function() {

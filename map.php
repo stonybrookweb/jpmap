@@ -65,7 +65,8 @@ $wpb_all_query = new WP_Query(array('post_type'=>'post', 'post_status'=>'publish
 
     <?
 	echo "<pre>";
-	print_r($allObjectsArray);
+	// TODO: Remove after finished testing
+    print_r($allObjectsArray);
     echo "</pre>";
 
     // no we have several json objects to output into a javascript array for use
