@@ -1,8 +1,9 @@
-<?php
+subl<?php
 /*
 Template Name: Map
 */
 ?>
+<? get_header(); ?>
 <!doctype html>
 <html>
     <head>
@@ -103,21 +104,4 @@ $wpb_all_query = new WP_Query(array('post_type'=>'post', 'post_status'=>'publish
 
 
         </main>
-        <!-- Load Knockout Framework -->
-        <script src=" <?php  echo get_template_directory_uri()  ?>/js/knockout-3.4.0.js"></script>
-
-        <!-- Load jQuery -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-
-        <!-- Load Main App JS -->
-        <script src=" <?php  echo get_template_directory_uri()  ?>/js/app.js"></script>
-
-        <!-- Load MAP functions -->
-        <script src=" <?php  echo get_template_directory_uri()  ?>/js/map.js"></script>
-
-        <!-- Load Google Maps API with callback to initMap in map.js -->
-        <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAaiZAIsuUibi0rZXcB1C2iZQrio0CYMFg&libraries=geometry&v=3&callback=initMap" onerror="googleError()"></script>
-        <script>
-         </script>
-    </body>
-</html>
+<?php get_footer(); ?>
