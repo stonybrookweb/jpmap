@@ -3,7 +3,7 @@
 Template Name: Map
 */
 ?>
-<? get_header(); ?>
+<?php get_header(); ?>
 
 
         <header class="header" data-bind="css: {openList: menuClass() == true}">
