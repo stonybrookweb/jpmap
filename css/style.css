@@ -3,12 +3,11 @@ body {
   height: 100%;
 }
 
-ul {
+.map-search ul {
   list-style-type: none;
-  padding: 0;
 }
 
-.header {
+.map-search {
   background-color: white;
   opacity: 0.8;
   height: 100%;
@@ -22,7 +21,7 @@ ul {
   overflow-y: scroll;
 }
 
-.header input {
+.map-search input {
     border: 2px solid lightgrey;
     border-radius: 10px;
     height: 25px;
@@ -33,7 +32,7 @@ ul {
 }
 
 .location-item {
-  padding: 15px;
+  padding: 5px 0;
 }
 
 .location-item:hover {
@@ -55,15 +54,13 @@ main,
   height: 400px;
 }
 
-
 #pano {
   width: 365px;
   height: 200px;
 }
 
-
 @media (max-width: 768px){
-  .header {
+  .map-search {
     min-width: 200px;
   }
 
@@ -83,13 +80,13 @@ main,
 }
 
 @media (max-width: 480px){
-  .header {
+  .map-search {
     height: 40px;
     width: 100%;
     overflow-y: hidden;
   }
 
-  .header input {
+  .map-search input {
     width: 60%;
   }
 

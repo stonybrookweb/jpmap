@@ -6,13 +6,13 @@ Template Name: Map
 <?php get_header(); ?>
 
 
-        <header class="header" data-bind="css: {openList: menuClass() == true}">
+        <nav class="map-search" data-bind="css: {openList: menuClass() == true}">
             <button id="menu-toggle" data-bind="click: toggleMenu, text: menuName">Toggle Menu</button>
             <p>Search: <input data-bind="textInput: query, valueUpdate: 'keyup'" type="search"></p>
             <ul data-bind="foreach: search()">
                 <li class="location-item" data-bind="text: title, click: $parent.mapClick"></li>
             </ul>
-        </header>
+        </nav>
         <main>
             <div id="map"></div>
 
