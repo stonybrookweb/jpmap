@@ -1,158 +1,33 @@
 <?php
-/**
- * jpmap functions and definitions.
- *
- * @link https://developer.wordpress.org/themes/basics/theme-functions/
- *
- * @package jpmap
- */
+function my_theme_enqueue_styles() {
 
-if ( ! function_exists( 'jpmap_setup' ) ) :
-/**
- * Sets up theme defaults and registers support for various WordPress features.
- *
- * Note that this function is hooked into the after_setup_theme hook, which
- * runs before the init hook. The init hook is too late for some features, such
- * as indicating support for post thumbnails.
- */
-function jpmap_setup() {
-	/*
-	 * Make theme available for translation.
-	 * Translations can be filed in the /languages/ directory.
-	 * If you're building a theme based on jpmap, use a find and replace
-	 * to change 'jpmap' to the name of your theme in all the template files.
-	 */
-	load_theme_textdomain( 'jpmap', get_template_directory() . '/languages' );
+    $parent_style = 'parent-style'; // This is 'twentyfifteen-style' for the Twenty Fifteen theme.
 
-	// Add default posts and comments RSS feed links to head.
-	add_theme_support( 'automatic-feed-links' );
+    wp_enqueue_style( $parent_style, get_template_directory_uri() . '/style.css' );
+    wp_enqueue_style( 'child-style',
+        get_stylesheet_directory_uri() . '/style.css',
+        array( $parent_style ),
+        wp_get_theme()->get('Version')
+    );
 
-	/*
-	 * Let WordPress manage the document title.
-	 * By adding theme support, we declare that this theme does not use a
-	 * hard-coded <title> tag in the document head, and expect WordPress to
-	 * provide it for us.
-	 */
-	add_theme_support( 'title-tag' );
+    // Custom Scripts
+    wp_enqueue_style( 'jpmap-mapstyle', get_stylesheet_directory_uri() . '/css/style.css' );
 
-	/*
-	 * Enable support for Post Thumbnails on posts and pages.
-	 *
-	 * @link https://developer.wordpress.org/themes/functionality/featured-images-post-thumbnails/
-	 */
-	add_theme_support( 'post-thumbnails' );
+    //<!-- Load Knockout Framework -->
+    wp_enqueue_script( 'jpmap-knockout', get_stylesheet_directory_uri() . '/js/knockout-3.4.0.js', array(), '20151215', true );
 
-	// This theme uses wp_nav_menu() in one location.
-	register_nav_menus( array(
-		'primary' => esc_html__( 'Primary', 'jpmap' ),
-	) );
+    // <!-- Load jQuery -->
+    wp_enqueue_script( 'jpmap-jquery', 'https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js', array(), '20151215', true );
 
-	/*
-	 * Switch default core markup for search form, comment form, and comments
-	 * to output valid HTML5.
-	 */
-	add_theme_support( 'html5', array(
-		'search-form',
-		'comment-form',
-		'comment-list',
-		'gallery',
-		'caption',
-	) );
+    // <!-- Load Main App JS -->
+    wp_enqueue_script( 'jpmap-main-app', get_stylesheet_directory_uri() . '/js/app.js', array('jpmap-knockout'), '20151215', true );
 
-	// Set up the WordPress core custom background feature.
-	add_theme_support( 'custom-background', apply_filters( 'jpmap_custom_background_args', array(
-		'default-color' => 'ffffff',
-		'default-image' => '',
-	) ) );
+    // <!-- Load MAP functions -->
+    wp_enqueue_script( 'jpmap-map', get_stylesheet_directory_uri() . '/js/map.js', array('jpmap-main-app'), '20151215', true );
+
+    //<!-- Load Google Maps API with callback to initMap in map.js -->
+    wp_enqueue_script( 'jpmap-google-maps-api', 'https://maps.googleapis.com/maps/api/js?key=AIzaSyAaiZAIsuUibi0rZXcB1C2iZQrio0CYMFg&libraries=geometry&v=3&callback=initMap', array('jpmap-map'), '20151215', true );
 }
-endif;
-add_action( 'after_setup_theme', 'jpmap_setup' );
 
-/**
- * Set the content width in pixels, based on the theme's design and stylesheet.
- *
- * Priority 0 to make it available to lower priority callbacks.
- *
- * @global int $content_width
- */
-function jpmap_content_width() {
-	$GLOBALS['content_width'] = apply_filters( 'jpmap_content_width', 640 );
-}
-add_action( 'after_setup_theme', 'jpmap_content_width', 0 );
-
-/**
- * Register widget area.
- *
- * @link https://developer.wordpress.org/themes/functionality/sidebars/#registering-a-sidebar
- */
-function jpmap_widgets_init() {
-	register_sidebar( array(
-		'name'          => esc_html__( 'Sidebar', 'jpmap' ),
-		'id'            => 'sidebar-1',
-		'description'   => esc_html__( 'Add widgets here.', 'jpmap' ),
-		'before_widget' => '<section id="%1$s" class="widget %2$s">',
-		'after_widget'  => '</section>',
-		'before_title'  => '<h2 class="widget-title">',
-		'after_title'   => '</h2>',
-	) );
-}
-add_action( 'widgets_init', 'jpmap_widgets_init' );
-
-/**
- * Enqueue scripts and styles.
- */
-function jpmap_scripts() {
-	wp_enqueue_style( 'jpmap-style', get_stylesheet_uri() );
-
-	wp_enqueue_style( 'jpmap-mapstyle', get_template_directory_uri() . '/css/style.css' );
-
-	wp_enqueue_script( 'jpmap-navigation', get_template_directory_uri() . '/js/navigation.js', array(), '20151215', true );
-
-	wp_enqueue_script( 'jpmap-skip-link-focus-fix', get_template_directory_uri() . '/js/skip-link-focus-fix.js', array(), '20151215', true );
-
-	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
-		wp_enqueue_script( 'comment-reply' );
-	}
-	// Custom Scripts
-	//<!-- Load Knockout Framework -->
-	wp_enqueue_script( 'jpmap-knockout', get_template_directory_uri() . '/js/knockout-3.4.0.js', array(), '20151215', true );
-
-	// <!-- Load jQuery -->
-	wp_enqueue_script( 'jpmap-jquery', 'https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js', array(), '20151215', true );
-
-	// <!-- Load Main App JS -->
-	wp_enqueue_script( 'jpmap-main-app', get_template_directory_uri() . '/js/app.js', array('jpmap-knockout'), '20151215', true );
-
-	// <!-- Load MAP functions -->
-	wp_enqueue_script( 'jpmap-map', get_template_directory_uri() . '/js/map.js', array('jpmap-main-app'), '20151215', true );
-
-	//<!-- Load Google Maps API with callback to initMap in map.js -->
-	wp_enqueue_script( 'jpmap-google-maps-api', 'https://maps.googleapis.com/maps/api/js?key=AIzaSyAaiZAIsuUibi0rZXcB1C2iZQrio0CYMFg&libraries=geometry&v=3&callback=initMap', array('jpmap-map'), '20151215', true );
-
-}
-add_action( 'wp_enqueue_scripts', 'jpmap_scripts' );
-
-/**
- * Implement the Custom Header feature.
- */
-require get_template_directory() . '/inc/custom-header.php';
-
-/**
- * Custom template tags for this theme.
- */
-require get_template_directory() . '/inc/template-tags.php';
-
-/**
- * Custom functions that act independently of the theme templates.
- */
-require get_template_directory() . '/inc/extras.php';
-
-/**
- * Customizer additions.
- */
-require get_template_directory() . '/inc/customizer.php';
-
-/**
- * Load Jetpack compatibility file.
- */
-require get_template_directory() . '/inc/jetpack.php';
+add_action( 'wp_enqueue_scripts', 'my_theme_enqueue_styles' );
+?>
