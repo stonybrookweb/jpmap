@@ -68,11 +68,17 @@ $wpb_all_query = new WP_Query(array('post_type'=>'post', 'post_status'=>'publish
     print_r($allObjectsArray);
     echo "</pre>";
 
-    // no we have several json objects to output into a javascript array for use
+    // Get last item of array for end of loop work
+    $allObjectsArrayCopy = $allObjectsArray;
+    $lastObject = array_pop($allObjectsArrayCopy);
+
+    // now we have several json objects to output into a javascript array for use
 	$final_output = " <script> var initialLocations = [";
 	foreach($allObjectsArray as $array ){
 		$final_output .= $array;
-		$final_output .= ","; // TODO don't print comma after final element so we have valid json
+        if($array != $lastObject){
+            $final_output .= ","; // Don't print trailing comma for last item
+        }
 	}
 
 	$final_output .= "]; </script>";
