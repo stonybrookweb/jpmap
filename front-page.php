@@ -7,7 +7,6 @@ Template Name: Map
 
 
         <header class="header" data-bind="css: {openList: menuClass() == true}">
-        <h1 class="header-title">Jamaica Plain Neighborhood Map</h1>
             <button id="menu-toggle" data-bind="click: toggleMenu, text: menuName">Toggle Menu</button>
             <p>Search: <input data-bind="textInput: query, valueUpdate: 'keyup'" type="search"></p>
             <ul data-bind="foreach: search()">

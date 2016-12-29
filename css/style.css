@@ -1,9 +1,6 @@
 html,
 body {
-  font-family: Arial, sans-serif;
   height: 100%;
-  margin: 0;
-  padding: 0;
 }
 
 ul {
@@ -25,9 +22,6 @@ ul {
   overflow-y: scroll;
 }
 
-.header-title {
-  font-size: 20px;
-}
 .header input {
     border: 2px solid lightgrey;
     border-radius: 10px;
@@ -67,9 +61,6 @@ main,
   height: 200px;
 }
 
-.text {
-  font-size: 12px;
-}
 
 @media (max-width: 768px){
   .header {
@@ -96,11 +87,6 @@ main,
     height: 40px;
     width: 100%;
     overflow-y: hidden;
-  }
-
-  .header-title {
-    width: 80%;
-    font-size: 16px;
   }
 
   .header input {
