@@ -105,27 +105,13 @@ function toggleBounce(currentMarker) {
 // on that markers position.
 function populateInfoWindow(marker, infowindow) {
     // Check for Wiki Data
-    var wikiData = '<div class="wiki-info"><h3>Wikepedia Articles</h3><p>No Wikipedia Informaion Available.</p></div>';
+    var wikiData = '<div class="wiki-info"><h3>Wikipedia Articles</h3><p>No Wikipedia Informaion Available.</p></div>';
     // Check array value is ok before proceeding. Reference: http://stackoverflow.com/questions/2672380/how-do-i-check-if-a-javascript-array-value-is-empty-or-null
     if(typeof wikiArray[marker.id] !=='undefined' &&wikiArray[marker.id][2].length > 0){
-        wikiData = '<div class="wiki-info"><h3>Wikepedia Articles</h3><p>';
+        wikiData = '<div class="wiki-info"><h3>Wikipedia Articles</h3><p>';
         wikiData +=  wikiArray[marker.id][2];
         wikiData +=  ' <a href="' + wikiArray[marker.id][3] + '" target="_blank">' + wikiArray[marker.id][3] + '</a></p>';
         wikiData +=  '</div>';
-    }
-
-    // Check for NY Times Data
-    var nyTimesData = '<div class="nyt-info"><h3>NY Times Articles</h3><p>No New York Times Articles Available.</p></div>';
-    // Check array value is ok before proceeding. Reference: http://stackoverflow.com/questions/2672380/how-do-i-check-if-a-javascript-array-value-is-empty-or-null
-    if(typeof nyTimesArticleArray[marker.id] !== 'undefined' && nyTimesArticleArray[marker.id].response.docs.length > 0){
-        nyTimesData = '<div class="nyt-info"><h3>New York Times Articles</h3>';
-        // Loop through available articles
-        nyTimesArticleArray[marker.id].response.docs.forEach(function(article){
-            nyTimesData += '<h4>' + article.headline.main + '</h4>';
-            nyTimesData += '<p>' + article.snippet;
-            nyTimesData += ' <a href="' + article.web_url + '" target="_blank">' + article.web_url + '</a></p>';
-        });
-        nyTimesData +=  '</div>';
     }
 
 // Check to make sure the infowindow is not already opened on this marker.
@@ -140,13 +126,13 @@ function populateInfoWindow(marker, infowindow) {
         streetViewService = new google.maps.StreetViewService();
 
 
-        infoWindowDetails(marker, infowindow, wikiData, nyTimesData);
+        infoWindowDetails(marker, infowindow, wikiData);
         // Open the infowindow on the correct marker.
         infowindow.open(map, marker);
     }
 } // End populate infowindow
 
-function infoWindowDetails(marker, infowindow, wikiData, nyTimesData){
+function infoWindowDetails(marker, infowindow, wikiData){
         // In case the status is OK, which means the pano was found, compute the
         // position of the streetview image, then calculate the heading, then get a
         // panorama from that and set the options
@@ -161,7 +147,7 @@ function infoWindowDetails(marker, infowindow, wikiData, nyTimesData){
                 var heading = google.maps.geometry.spherical.computeHeading(
                     nearStreetViewLocation, marker.position);
 
-                infowindow.setContent('<div class="infowindow"><h1 class="infowindow-header">' + marker.title + '</h1><div id="pano"></div>' + wikiData + nyTimesData + '</div>');
+                infowindow.setContent('<div class="infowindow"><h1 class="infowindow-header">' + marker.title + '</h1><div id="pano"></div>' + wikiData  + '</div>');
 
                 var panoramaOptions = {
                     position: nearStreetViewLocation,
@@ -173,7 +159,7 @@ function infoWindowDetails(marker, infowindow, wikiData, nyTimesData){
                 var panorama = new google.maps.StreetViewPanorama(
                     document.getElementById('pano'), panoramaOptions);
             } else {
-                infowindow.setContent('<div class="infowindow"><h1 class="infowindow-header">' + marker.title + '</h1>' + '<div>No Street View Found</div>' + wikiData + nyTimesData + '</div>');
+                infowindow.setContent('<div class="infowindow"><h1 class="infowindow-header">' + marker.title + '</h1>' + '<div>No Street View Found</div>' + wikiData + '</div>');
             }
         }
 }
@@ -227,48 +213,9 @@ function getWikiArticles(){
 
 getWikiArticles();
 
- //  *** NY Times API ***
-var nyTimesArticleArray = [],
-    currentNYTRequest = 0,
-    countOfNYTArticles = initialLocations.length - 1;
 
-function getNYTimesArticles(){
-    // Using recursion one at a time look up titles via Wikipedia API
-    // Reminder of using recursion from http://stackoverflow.com/questions/14408718/wait-for-callback-before-continue-for-loop
-    // Setup URL for Ajax request to include the current location title
 
-    // Built by LucyBot. www.lucybot.com via https://developer.nytimes.com/article_search_v2.json#/Console/GET/articlesearch.json
-    var nytUrl = "https://api.nytimes.com/svc/search/v2/articlesearch.json";
-    nytUrl += '?' + $.param({
-        'api-key': "da9fbbc94ca44e22b161868f9f7bdacc",
-        'q': initialLocations[currentNYTRequest].title + ' and boston', // add boston to search parameter to limit to Boston area
-        'begin_date': "20160101", //TODO: Update time to make it todays date less 1 year
-        'end_date': "20161231"
-    });
-
-    // now recursion!
-    $.ajax({
-            // ajax settings
-            url: nytUrl,
-            method: 'GET',
-            dataType: 'json',
-        }).done(function (response) {
-            // successful
-            nyTimesArticleArray[currentNYTRequest] = response;
-            // Now we check if we need to do more requests and use recursion to do them.
-            if (currentNYTRequest < countOfNYTArticles){
-                currentNYTRequest ++;
-                getNYTimesArticles();
-            }
-        }).fail(function (jqXHR, textStatus) {
-            // error handling
-            alert('New York Times data not currently available. Please try again later.');
-    });
-}
-// TODO: Replace this API with another from Boston area. Remove the NYT Call code
-// getNYTimesArticles();
-
-// Make map responsive and fit all markers on resize hanks to tip from Udacity reviewer.
+// Make map responsive and fit all markers on resize thanks to tip from Udacity reviewer.
 window.onresize = function() {
     var bounds = new google.maps.LatLngBounds(null);
     markers.forEach(function(marker){
