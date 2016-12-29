@@ -10,7 +10,7 @@ Template Name: Map
             <button id="menu-toggle" data-bind="click: toggleMenu, text: menuName">Toggle Menu</button>
             <p>Search: <input data-bind="textInput: query, valueUpdate: 'keyup'" type="search"></p>
             <ul data-bind="foreach: search()">
-                <li class="location-item" data-bind="text: title, click: $parent.mapClick"></li>
+                <li class="location-item" data-bind="text: title, url, click: $parent.mapClick"></li>
             </ul>
         </nav>
         <main>
@@ -36,10 +36,11 @@ $wpb_all_query = new WP_Query(array('post_type'=>'post', 'post_status'=>'publish
 		// Create temporary php array in correct output format
         $mapArray = array();
         $mapArray['title'] = get_the_title();
-		$mapArray['location'] = array();
-		$mapArray['location']['lat'] = floatval($mycustom['lat'][0]);
-		$mapArray['location']['lng'] = floatval($mycustom['lng'][0]);
-		$mapArray['note'] = get_the_content();
+        $mapArray['permalink'] = get_permalink();
+        $mapArray['location'] = array();
+        $mapArray['location']['lat'] = floatval($mycustom['lat'][0]);
+        $mapArray['location']['lng'] = floatval($mycustom['lng'][0]);
+        $mapArray['note'] = get_the_content();
         $mapArray['categories'] = array();
         $mapArray['tags'] = array();
 
