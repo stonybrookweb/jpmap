@@ -12,6 +12,7 @@ var ViewModel = function() {
         this.title = ko.observable(locationItem.title);
         this.location = ko.observable(locationItem.location);
         this.note = ko.observable(locationItem.note);
+        this.permalink = ko.observable(locationItem.permalink);
         this.id = id;
     };
 

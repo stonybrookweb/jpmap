@@ -50,10 +50,14 @@ global.initMap  = function () {
         // Get the position from the location array.
         var position = initialLocations[i].location;
         var title = initialLocations[i].title;
+        var permalink = initialLocations[i].permalink;
+        var note = initialLocations[i].note;
         // Create a marker per location, and put into markers array.
         var marker = new google.maps.Marker({
             position: position,
             title: title,
+            permalink: permalink,
+            note: note,
             map: map,
             animation: google.maps.Animation.DROP,
             icon: defaultIcon,
@@ -147,7 +151,8 @@ function infoWindowDetails(marker, infowindow, wikiData){
                 var heading = google.maps.geometry.spherical.computeHeading(
                     nearStreetViewLocation, marker.position);
 
-                infowindow.setContent('<div class="infowindow"><h1 class="infowindow-header">' + marker.title + '</h1><div id="pano"></div>' + wikiData  + '</div>');
+                var bloginfo = '<div class="blog-data"><h2>Description</h2>' + marker.note + '<br><a href="' + marker.permalink + '">View full page</a></div>';
+                infowindow.setContent('<div class="infowindow"><h1 class="infowindow-header">' + marker.title + '</h1><div id="pano"></div>' + bloginfo + wikiData  + '</div>');
 
                 var panoramaOptions = {
                     position: nearStreetViewLocation,
