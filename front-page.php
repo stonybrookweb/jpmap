@@ -10,7 +10,7 @@ Template Name: Map
             <button id="menu-toggle" data-bind="click: toggleMenu, text: menuName">Toggle Menu</button>
             <p>Search: <input data-bind="textInput: query, valueUpdate: 'keyup'" type="search"></p>
             <ul data-bind="foreach: search()">
-                <li class="location-item" data-bind="text: title, click: $parent.mapClick"></li>
+                <li class="location-item" data-bind="click: $parent.mapClick"><a data-bind="text: title, attr:{href:permalink}"></a></li>
             </ul>
         </nav>
         <main>
